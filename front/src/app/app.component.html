@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <app-player-crud teamName="TEAM A" [(players)]="teamA"></app-player-crud>
+    </div>
+
+    <div class="col-md-6">
+      <app-player-crud teamName="TEAM B" [(players)]="teamB"></app-player-crud>
+    </div>
+
+    
+  </div>
+  <div class="row">
+    <div class="col-md-3 col-md-offset-3">
+      <app-player-list teamName="TEAM A" [players]="teamA"></app-player-list>
+    </div>
+    <div class="col-md-3">
+      <app-player-list teamName="TEAM B" [players]="teamB"></app-player-list>
+    </div>
+  </div>
+</div>

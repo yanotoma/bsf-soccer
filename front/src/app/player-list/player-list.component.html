@@ -1,0 +1,15 @@
+<h1>{{teamName}}</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let player of playersToShow">
+      <td>{{player.number}}</td>
+      <td>{{player.name}}</td>
+    </tr>
+  </tbody>
+</table>
