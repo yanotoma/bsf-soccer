@@ -1,5 +1,7 @@
 import { Player } from './player/player';
+import { PlayerService } from './player/player.service';
 import { Component, OnChanges, OnInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs/Rx';
 
 @Component({
   selector: 'app-root',
@@ -8,35 +10,26 @@ import { Component, OnChanges, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit, OnChanges{
 
-  teamA: Array<Player> = [
-    { number: 1, name: 'C', team: 'TEAM A' },
-    { number: 2, name: 'B', team: 'TEAM A' },
-    { number: 3, name: 'A', team: 'TEAM A' },
-    { number: 4, name: 'A', team: 'TEAM A' },
-    { number: 5, name: 'A', team: 'TEAM A' },
-    { number: 6, name: 'A', team: 'TEAM A' },
-    { number: 7, name: 'A', team: 'TEAM A' },
-    { number: 8, name: 'A', team: 'TEAM A' },
-    { number: 9, name: 'A', team: 'TEAM A' },
-    { number: 10, name: 'A', team: 'TEAM A' },
-  ];
+  teamA: string = 'FC Barcelona';
+  teamB: string = 'Real Madrid';
+  observable: Observable<any>;
+  teamAPlayers: Player[] = [];
+  teamBPlayers: Player[] = [];
 
-  teamB: Array<Player> = [
-    { number: 1, name: 'B', team: 'TEAM B' },
-    { number: 2, name: 'B', team: 'TEAM B' },
-    { number: 3, name: 'B', team: 'TEAM B' },
-    { number: 4, name: 'B', team: 'TEAM B' },
-    { number: 5, name: 'B', team: 'TEAM B' },
-    { number: 6, name: 'B', team: 'TEAM B' },
-    { number: 7, name: 'B', team: 'TEAM B' },
-    { number: 8, name: 'B', team: 'TEAM B' },
-    { number: 9, name: 'B', team: 'TEAM B' },
-    { number: 10, name: 'B', team: 'TEAM B' },
-  ];
+  teamASubject: Subject<Player[]> = new Subject<Player[]>();
+  teamBSubject: Subject<Player[]> = new Subject<Player[]>();
+
+  constructor(private playerService: PlayerService){}
 
   ngOnInit() {
-    // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    // Add 'implements OnInit' to the class.
+    this.observable = Observable.zip(this.playerService.getPlayersByTeam(this.teamA), this.playerService.getPlayersByTeam(this.teamB));
+    
+    this.observable.subscribe(([a, b]) => {
+      this.teamAPlayers = a;
+      this.teamBPlayers = b;
+      this.teamASubject.next(this.teamAPlayers);
+      this.teamBSubject.next(this.teamBPlayers);
+    });
   }
 
   ngOnChanges(changes) {

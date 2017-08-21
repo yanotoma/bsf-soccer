@@ -1,50 +1,52 @@
 {
-  "books": [{
-      "id": 101,
-      "title": "Zero to One",
-      "author": "Peter Thiel",
-      "year_published": 2014,
-      "rating": 4.03,
-      "price": 10,
-      "imgUrl": "https://images-na.ssl-images-amazon.com/images/I/41puRJbtwkL._SX331_BO1,204,203,200_.jpg"
-    },
+  "players":[
     {
-      "id": 102,
-      "title": "The Origin of Species",
-      "author": "Charles Darwin",
-      "year_published": 1889,
-      "rating": 4.2,
-      "price": 10,
-      "imgUrl": "https://images-na.ssl-images-amazon.com/images/I/41mXEbkajLL._SY344_BO1,204,203,200_.jpg"
-    },
-    {
-      "id": 103,
-      "title": "AngularJS 2",
-      "author": " Daniel Green",
-      "year_published": 2017,
-      "rating": 5.2,
-      "price": 10,
-      "imgUrl": "https://images-na.ssl-images-amazon.com/images/I/51TXjVsADfL._SY346_.jpg"
-    }
-  ],
-  "sortOptions": [{
       "id": 1,
-      "text": "Year",
-      "value": "year_published"
+      "number": 1,
+      "name": "Teg Stegen",
+      "team": "FC Barcelona"
     },
     {
       "id": 2,
-      "text": "Title",
-      "value": "title"
+      "number": 3,
+      "name": "Piqué",
+      "team": "FC Barcelona"
     },
     {
       "id": 3,
-      "text": "Rating",
-      "value": "rating"
+      "number": 8,
+      "name": "A. Iniesta",
+      "team": "FC Barcelona"
+    },
+    {
+      "id": 4,
+      "number": 10,
+      "name": "Messi",
+      "team": "FC Barcelona"
+    },
+    {
+      "id": 5,
+      "number": 1,
+      "name": "Keylor Navas",
+      "team": "Real Madrid"
+    },
+    {
+      "id": 6,
+      "number": 12,
+      "name": "Marcelo",
+      "team": "Real Madrid"
+    },
+    {
+      "id": 7,
+      "number": 11,
+      "name": "Bale",
+      "team": "Real Madrid"
+    },
+    {
+      "id": 8,
+      "number": 7,
+      "name": "Ronaldo",
+      "team": "Real Madrid"
     }
-  ],
-  "users": [{
-    "username": "jcyovera",
-    "password": "123456"
-  }]
+  ]
 }

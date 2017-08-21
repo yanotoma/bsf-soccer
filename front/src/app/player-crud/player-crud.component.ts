@@ -1,5 +1,10 @@
+import { PlayerService } from '../player/player.service';
+import { Observable, Subject } from 'rxjs/Rx';
+
+
 import { Player } from '../player/player';
 import { Component, Input, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-player-crud',
@@ -8,8 +13,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PlayerCrudComponent implements OnInit {
 
-  @Input() teamName: string;
   @Input() players: Array<Player>;
+  @Input() teamName: string;
+  @Input() subject: Subject<Player[]>;
 
   MAX_PLAYERS = 11;
   showForm: Boolean = false;
@@ -20,16 +26,19 @@ export class PlayerCrudComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
+    
   }
 
   resetPlayer() {
     this.currentPlayer = -1;
     this.player = {
+      id: 0,
       number: 0,
       name: '',
       team: this.teamName
     };
+
+    this.subject.next(this.players);
   }
 
   onNew() {
@@ -46,7 +55,7 @@ export class PlayerCrudComponent implements OnInit {
   }
 
   onAddPlayer() {
-    
+
     this.players.push(this.player);
     this.showForm = false;
     this.resetPlayer();
