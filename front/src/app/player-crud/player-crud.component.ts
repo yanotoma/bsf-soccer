@@ -13,20 +13,22 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PlayerCrudComponent implements OnInit {
 
-  @Input() players: Array<Player>;
+  
   @Input() teamName: string;
-  @Input() subject: Subject<Player[]>;
 
   MAX_PLAYERS = 11;
+  players: Array<Player>;
   showForm: Boolean = false;
   player: Player;
   isNew: Boolean;
   currentPlayer: number = -1;
 
-  constructor() { }
+  constructor(private playerService: PlayerService) { }
 
   ngOnInit() {
-    
+    this.playerService.getObservable().subscribe( players => {
+      this.players = players;
+    });
   }
 
   resetPlayer() {
@@ -38,7 +40,7 @@ export class PlayerCrudComponent implements OnInit {
       team: this.teamName
     };
 
-    this.subject.next(this.players);
+    this.playerService.emmitUpdate(this.players);
   }
 
   onNew() {
@@ -76,6 +78,7 @@ export class PlayerCrudComponent implements OnInit {
 
   onRemovePlayer(index) {
     this.players.splice(index, 1);
+    this.resetPlayer();
   }
 
 }

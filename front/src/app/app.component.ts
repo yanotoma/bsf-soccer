@@ -16,20 +16,15 @@ export class AppComponent implements OnInit, OnChanges{
   teamAPlayers: Player[] = [];
   teamBPlayers: Player[] = [];
 
-  teamASubject: Subject<Player[]> = new Subject<Player[]>();
-  teamBSubject: Subject<Player[]> = new Subject<Player[]>();
-
   constructor(private playerService: PlayerService){}
 
   ngOnInit() {
-    this.observable = Observable.zip(this.playerService.getPlayersByTeam(this.teamA), this.playerService.getPlayersByTeam(this.teamB));
-    
-    this.observable.subscribe(([a, b]) => {
-      this.teamAPlayers = a;
-      this.teamBPlayers = b;
-      this.teamASubject.next(this.teamAPlayers);
-      this.teamBSubject.next(this.teamBPlayers);
-    });
+
+    this.playerService.getAllPlayers()
+      .subscribe( players => {
+        this.playerService.emmitUpdate(players);
+      });
+
   }
 
   ngOnChanges(changes) {

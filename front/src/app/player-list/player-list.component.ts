@@ -1,8 +1,9 @@
 import { PlayerService } from '../player/player.service';
 import { Observable, Subject } from 'rxjs/Rx';
-
 import { Player } from '../player/player';
 import { Component, Input, OnChanges, OnInit, SimpleChanges, DoCheck } from '@angular/core';
+
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-player-list',
@@ -12,30 +13,28 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, DoCheck } from '@an
 export class PlayerListComponent implements OnInit {
 
   @Input() teamName: string;
-  @Input() set subject(value: Subject<Player[]>){
-    if(value){
-      this.observable = value.asObservable();
-      this.subscribe();
-    }
-  }
 
-  observable: Observable<Player[]>;
-
-  playersToShow: Array<Player>;
+  playersToShow: Array<Player> = [];
   
 
   constructor(private playerService: PlayerService) {}
 
   ngOnInit() {
-   
+   this.subscribe();
   }
 
   subscribe(){
-    this.observable.subscribe( players => {
-      this.playersToShow = players.slice().sort( (a, b) => a.name.toLocaleLowerCase() > b.name.toLowerCase() ? 1 : 0 );
+    
+    this.playerService.getObservable().subscribe( players => {
+      const grouped = _.groupBy(players, 'team');
+      console.log(grouped[this.teamName]);
+      if(grouped[this.teamName]){
+        this.playersToShow = grouped[this.teamName].sort( (a, b) => a.name.toLowerCase() > b.name.toLowerCase() ? 1 : 0 );
+      }
     });
   }
 
 
 
 }
+   
