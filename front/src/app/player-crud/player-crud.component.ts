@@ -1,9 +1,9 @@
 import { PlayerService } from '../player/player.service';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subject, Subscription } from 'rxjs/Rx';
 
 
 import { Player } from '../player/player';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 
 
 @Component({
@@ -11,9 +11,10 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './player-crud.component.html',
   styleUrls: ['./player-crud.component.css']
 })
-export class PlayerCrudComponent implements OnInit {
-
+export class PlayerCrudComponent implements OnInit, OnDestroy {
   
+
+
   @Input() teamName: string;
 
   MAX_PLAYERS = 11;
@@ -22,13 +23,18 @@ export class PlayerCrudComponent implements OnInit {
   player: Player;
   isNew: Boolean;
   currentPlayer: number = -1;
+  observable: Subscription;
 
   constructor(private playerService: PlayerService) { }
 
   ngOnInit() {
-    this.playerService.getObservable().subscribe( players => {
+    this.observable = this.playerService.getObservable().subscribe( players => {
       this.players = players;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.observable.unsubscribe();
   }
 
   resetPlayer() {

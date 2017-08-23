@@ -1,7 +1,7 @@
 import { PlayerService } from '../player/player.service';
-import { Observable, Subject } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 import { Player } from '../player/player';
-import { Component, Input, OnChanges, OnInit, SimpleChanges, DoCheck } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, DoCheck, OnDestroy } from '@angular/core';
 
 import * as _ from "lodash";
 
@@ -10,11 +10,13 @@ import * as _ from "lodash";
   templateUrl: './player-list.component.html',
   styleUrls: ['./player-list.component.css']
 })
-export class PlayerListComponent implements OnInit {
+export class PlayerListComponent implements OnInit, OnDestroy {
+  
 
   @Input() teamName: string;
 
   playersToShow: Array<Player> = [];
+  subscription: Subscription;
   
 
   constructor(private playerService: PlayerService) {}
@@ -23,9 +25,13 @@ export class PlayerListComponent implements OnInit {
    this.subscribe();
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   subscribe(){
     
-    this.playerService.getObservable().subscribe( players => {
+    this.subscription = this.playerService.getObservable().subscribe( players => {
       const grouped = _.groupBy(players, 'team');
       console.log(grouped[this.teamName]);
       if(grouped[this.teamName]){
